@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Michi Club · El gatito que baila</title>
+  <meta name="description" content="Arrastra café al michi y baila; dale una guitarra y arma concierto.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="stage" id="stage">
+    <div class="wall" aria-hidden="true"></div>
+    <div class="curtain curtain--left" aria-hidden="true"></div>
+    <div class="curtain curtain--right" aria-hidden="true"></div>
+    <div class="spotlight spotlight--left" aria-hidden="true"></div>
+    <div class="spotlight spotlight--right" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="marquee">
+        <h1 class="marquee__title">MICHI&nbsp;CLUB</h1>
+        <p class="marquee__sub">con cariño para ELO</p>
+      </div>
+    </header>
+
+    <main class="scene">
+      <div class="bubble" id="bubble" role="status" aria-live="polite">¡Miau! Arrastra algo hasta mí…</div>
+
+      <div class="cat-rig" id="cat" tabindex="0" role="button" aria-label="Acariciar al gatito">
+        <svg viewBox="0 0 340 340" aria-hidden="true">
+          <g class="tail">
+            <path d="M236 252 C304 252 306 190 286 156" fill="none" stroke="#e8892b" stroke-width="21" stroke-linecap="round"/>
+          </g>
+          <ellipse cx="170" cy="245" rx="72" ry="58" fill="#f7a243"/>
+          <ellipse cx="170" cy="258" rx="44" ry="34" fill="#ffe8c9"/>
+          <ellipse cx="130" cy="298" rx="26" ry="13" fill="#e8892b"/>
+          <ellipse cx="210" cy="298" rx="26" ry="13" fill="#e8892b"/>
+          <g class="arm arm--left"><rect x="103" y="204" width="22" height="58" rx="11" fill="#f7a243"/><circle cx="114" cy="260" r="12" fill="#ffe8c9"/></g>
+          <g class="arm arm--right"><rect x="215" y="204" width="22" height="58" rx="11" fill="#f7a243"/><circle cx="226" cy="260" r="12" fill="#ffe8c9"/></g>
+          <g class="guitar" transform="rotate(-14 170 246)">
+            <rect x="58" y="240" width="126" height="12" rx="6" fill="#6b3b17"/>
+            <rect x="40" y="234" width="22" height="24" rx="5" fill="#4a2810"/>
+            <circle cx="232" cy="248" r="36" fill="#c05a24"/>
+            <circle cx="196" cy="246" r="25" fill="#c05a24"/>
+            <circle cx="230" cy="248" r="12" fill="#3b1e0b"/>
+            <line x1="70" y1="242" x2="252" y2="242" stroke="#f5e6c8" stroke-width="1"/>
+            <line x1="70" y1="246" x2="252" y2="246" stroke="#f5e6c8" stroke-width="1"/>
+            <line x1="70" y1="250" x2="252" y2="250" stroke="#f5e6c8" stroke-width="1"/>
+          </g>
+          <g class="head">
+            <path d="M100 92 L88 30 L146 60 Z" fill="#f7a243"/>
+            <path d="M107 84 L100 48 L136 66 Z" fill="#ff9eae"/>
+            <path d="M240 92 L252 30 L194 60 Z" fill="#f7a243"/>
+            <path d="M233 84 L240 48 L204 66 Z" fill="#ff9eae"/>
+            <circle cx="170" cy="130" r="78" fill="#f7a243"/>
+            <path d="M146 56 q24 12 48 0" fill="none" stroke="#e0842a" stroke-width="7" stroke-linecap="round"/>
+            <g class="eye"><ellipse cx="140" cy="120" rx="13" ry="16" fill="#2b3a2e"/><circle cx="144" cy="114" r="4.5" fill="#fff"/></g>
+            <g class="eye"><ellipse cx="200" cy="120" rx="13" ry="16" fill="#2b3a2e"/><circle cx="204" cy="114" r="4.5" fill="#fff"/></g>
+            <circle cx="116" cy="150" r="10" fill="#ffb37a" opacity=".7"/>
+            <circle cx="224" cy="150" r="10" fill="#ffb37a" opacity=".7"/>
+            <path d="M162 146 h16 l-8 10 z" fill="#ff7d92"/>
+            <path class="mouth mouth--idle" d="M150 166 q10 10 20 0 q10 10 20 0" fill="none" stroke="#7c3f12" stroke-width="4" stroke-linecap="round"/>
+            <path class="mouth mouth--sing" d="M157 163 q13 24 26 0 z" fill="#8c2f39"/>
+            <g stroke="#7c3f12" stroke-width="3" stroke-linecap="round" opacity=".8">
+              <line x1="96" y1="140" x2="130" y2="146"/><line x1="94" y1="156" x2="130" y2="154"/>
+              <line x1="244" y1="140" x2="210" y2="146"/><line x1="246" y1="156" x2="210" y2="154"/>
+            </g>
+          </g>
+        </svg>
+        <div class="hat" aria-hidden="true">🎩</div>
+        <div class="snack" aria-hidden="true">🐟</div>
+      </div>
+
+      <div class="ball" aria-hidden="true">🎾</div>
+      <div class="floor-shadow" aria-hidden="true"></div>
+      <div class="fx" id="fx" aria-hidden="true"></div>
+    </main>
+
+    <section class="shelf" aria-label="Regalos para el michi">
+      <h2 class="shelf__title">Arrastra un regalo hasta el michi 🐾</h2>
+      <div class="shelf__items" id="gifts">
+        <button class="gift" data-gift="cafe" aria-label="Arrastrar café al michi">☕<span>Café</span></button>
+        <button class="gift" data-gift="guitarra" aria-label="Arrastrar guitarra al michi">🎸<span>Guitarra</span></button>
+        <button class="gift" data-gift="pescado" aria-label="Arrastrar pescadito al michi">🐟<span>Pescadito</span></button>
+        <button class="gift" data-gift="pelota" aria-label="Arrastrar pelota al michi">🎾<span>Pelota</span></button>
+        <button class="gift" data-gift="sombrero" aria-label="Arrastrar sombrero al michi">🎩<span>Sombrero</span></button>
+      </div>
+      <p class="shelf__count">Regalos entregados: <strong id="giftCount">0</strong></p>
+      <button class="mute" id="muteBtn" aria-pressed="false" aria-label="Silenciar sonido">🔊</button>
+    </section>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

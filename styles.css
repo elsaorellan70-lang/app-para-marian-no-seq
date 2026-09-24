@@ -1,0 +1,226 @@
+/* ====== Michi Club · estilos (fondo con colores reales) ====== */
+:root{
+  --cortina:#a02334; --cortina2:#7c1626;
+  --madera:#7a4a22; --madera2:#5f3717;
+  --dorado:#ffd166; --ambar:#ff9f43;
+  --crema:#fff3e0; --teal:#35d0ba;
+  --negro: #0b0b14;
+  --display:'Baloo 2',cursive; --body:'Nunito',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:var(--body);
+  color:var(--crema);
+  overflow-x:hidden;
+  user-select:none;-webkit-user-select:none;
+  /* 👉 PONE TU IMAGEN DE FONDO AQUÍ 👇 */
+  background-image: url('imagen.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  /* Pequeñísimo tinte oscuro solo para que el texto sea legible, sin cambiar colores */
+  background-color: var(--negro);
+}
+/* Si quieres desactivar el tinte oscuro encima del fondo, borra esta línea: */
+body::before{
+  content:"";
+  position:fixed; inset:0;
+  background:rgba(0,0,0,0.18);
+  pointer-events:none;
+  z-index:0;
+}
+button{font-family:inherit;cursor:pointer}
+
+/* ====== Escenario ====== */
+.stage{
+  position:relative;
+  min-height:100dvh;
+  display:flex;flex-direction:column;
+  z-index:1;
+  /* Ya NO hay gradiente de color morado/azul encima de tu imagen */
+  background: transparent;
+}
+
+/* Piso de madera — sigue ahí, encima de tu imagen en la parte inferior */
+.stage::after{
+  content:"";
+  position:absolute;left:0;right:0;bottom:0;height:22%;z-index:0;
+  background:
+    repeating-linear-gradient(90deg,var(--madera) 0 72px,var(--madera2) 72px 75px);
+}
+
+.curtain{
+  position:absolute;top:0;bottom:18%;width:9vmin;z-index:2;pointer-events:none;
+  background:repeating-linear-gradient(90deg,var(--cortina) 0 2.2vmin,var(--cortina2) 2.2vmin 4.4vmin);
+  border-bottom:1.4vmin solid #5c0f1c;box-shadow:inset 0 -3vmin 4vmin rgba(0,0,0,.4);
+}
+.curtain--left{left:0;border-radius:0 0 100% 0}
+.curtain--right{right:0;border-radius:0 0 0 100%}
+.spotlight{
+  position:absolute;top:-6%;width:38vmin;height:88vmin;z-index:1;pointer-events:none;
+  background:linear-gradient(rgba(255,214,120,.28),rgba(255,214,120,0) 85%);
+  clip-path:polygon(44% 0,56% 0,100% 100%,0 100%);
+  transform-origin:top center;
+  animation:sway 5s ease-in-out infinite alternate;
+}
+.spotlight--left{left:14%}
+.spotlight--right{right:14%;animation-delay:-2.5s}
+
+/* ====== Barra superior ====== */
+.topbar{
+  position:relative;z-index:5;
+  padding:1.1rem clamp(1rem,4vw,2.5rem);
+  text-align:center;
+}
+.marquee__title{
+  font-family:var(--display);font-weight:800;letter-spacing:.06em;
+  font-size:clamp(2rem,6vw,3.4rem);color:var(--dorado);line-height:1;
+  text-shadow:0 0 12px rgba(255,159,67,.85),0 0 32px rgba(255,159,67,.45),0 3px 0 #7a3d00;
+  animation:bulb 2.4s ease-in-out infinite;
+}
+.marquee__sub{
+  font-size:clamp(.8rem,2.2vw,1rem);color:#fff7ea;margin-top:.3rem;
+  text-shadow:0 1px 4px rgba(0,0,0,.7);
+}
+
+/* ====== Escena y gatito ====== */
+.scene{position:relative;z-index:3;flex:1;display:flex;align-items:flex-end;justify-content:center;min-height:320px}
+.floor-shadow{
+  position:absolute;bottom:6%;left:50%;transform:translateX(-50%);
+  width:min(46vmin,400px);height:5vmin;border-radius:50%;background:rgba(0,0,0,.55);filter:blur(6px);
+}
+.cat-rig{
+  position:relative;width:clamp(240px,46vmin,430px);margin-bottom:4%;outline:none;
+  transition:transform .3s, filter .3s;
+}
+.cat-rig:focus-visible{filter:drop-shadow(0 0 14px var(--dorado))}
+.cat-rig svg{width:100%;display:block}
+
+.cat-rig.drop-target{
+  filter:drop-shadow(0 0 22px var(--dorado)) drop-shadow(0 0 38px var(--teal));
+  animation:pulse .7s ease-in-out infinite alternate;
+}
+
+.tail,.head,.eye,.arm,.guitar{transform-box:fill-box}
+.tail{transform-origin:0% 90%;animation:tailWag 2.6s ease-in-out infinite}
+.head{transform-origin:50% 80%;animation:headIdle 3.4s ease-in-out infinite}
+.eye{transform-origin:center;animation:blink 5s infinite}
+.arm{transform-origin:50% 8%}
+.guitar{opacity:0;transform-box:fill-box;transform-origin:center;scale:.5;transition:opacity .35s,scale .35s cubic-bezier(.34,1.56,.64,1)}
+.mouth--sing{display:none}
+
+.is-dancing{animation:catBounce .42s ease-in-out infinite alternate}
+.is-dancing .head{animation:headTilt .84s ease-in-out infinite}
+.is-dancing .tail{animation-duration:.4s}
+.is-dancing .arm--left{animation:waveL .42s ease-in-out infinite alternate}
+.is-dancing .arm--right{animation:waveR .42s ease-in-out infinite alternate-reverse}
+.is-dancing .mouth--idle,.is-playing .mouth--idle{display:none}
+.is-dancing .mouth--sing,.is-playing .mouth--sing{display:block}
+
+.is-playing .guitar{opacity:1;scale:1}
+.is-playing .arm--left{transform:rotate(-96deg)}
+.is-playing .arm--right{animation:strum .26s linear infinite}
+.is-playing .head{animation:rockHead .52s ease-in-out infinite}
+.is-playing .tail{animation-duration:.5s}
+
+.is-eating .head{animation:munch .5s ease-in-out infinite}
+.is-eating .snack{animation:snackPop .5s ease-in-out infinite alternate}
+.snack{position:absolute;left:50%;top:44%;font-size:clamp(1.6rem,5vmin,2.4rem);
+  opacity:0;transform:translateX(-50%) scale(0);pointer-events:none}
+
+.ball{position:absolute;bottom:7%;left:50%;font-size:clamp(1.8rem,5vmin,2.6rem);display:none;z-index:4}
+.is-ball ~ .ball{display:block;animation:ballRun 1.5s ease-in-out infinite alternate}
+.is-ball .head{transform:rotate(6deg)}
+.is-ball .arm--right{transform:rotate(120deg)}
+
+.is-fancy{animation:bow 1.4s ease-in-out infinite}
+.is-fancy .hat{animation:hatPop .5s cubic-bezier(.34,1.56,.64,1) forwards}
+.hat{position:absolute;left:50%;top:-6%;font-size:clamp(2.4rem,8vmin,4rem);
+  opacity:0;transform:translateX(-50%) scale(0);pointer-events:none}
+
+/* ====== Burbuja ====== */
+.bubble{
+  position:absolute;top:2%;left:50%;transform:translateX(-50%) scale(0);z-index:6;
+  background:var(--crema);color:#5b2d0e;font-weight:700;border:3px solid #7c3f12;
+  border-radius:16px;padding:.55rem 1rem;max-width:min(78vw,360px);text-align:center;
+  transform-origin:bottom center;transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 6px 0 rgba(0,0,0,.25);pointer-events:none;
+}
+.bubble.show{transform:translateX(-50%) scale(1)}
+.bubble::after{
+  content:"";position:absolute;bottom:-11px;left:50%;transform:translateX(-50%);
+  border:10px solid transparent;border-top-color:#7c3f12;border-bottom:0;
+}
+
+/* ====== Estante ====== */
+.shelf{
+  position:relative;z-index:5;
+  padding:1rem clamp(1rem,4vw,2.5rem) 1.6rem;text-align:center;
+  /* 👇 antes tenía gradiente negro encima; ahora es transparente para no tapar el fondo */
+  background: transparent;
+}
+.shelf__title{
+  font-family:var(--display);font-weight:800;color:var(--dorado);
+  font-size:clamp(1rem,3vw,1.4rem);text-shadow:0 2px 0 #7a3d00, 0 0 8px rgba(0,0,0,.6);
+  margin-bottom:.8rem;
+}
+.shelf__items{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(.6rem,2vw,1.1rem)}
+.gift{
+  display:grid;justify-items:center;gap:.15rem;
+  width:clamp(66px,10vw,86px);aspect-ratio:1;
+  font-size:clamp(1.8rem,4.5vmin,2.4rem);color:#5b2d0e;touch-action:none;
+  background:radial-gradient(circle at 30% 25%,#fff,var(--crema) 60%,#f3d9ae);
+  border:3px solid #7c3f12;border-radius:18px;box-shadow:0 6px 0 #4a2810;
+  transition:transform .18s cubic-bezier(.34,1.56,.64,1),box-shadow .18s,opacity .2s;
+}
+.gift span{font-size:.68rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.gift:hover{transform:translateY(-4px);box-shadow:0 10px 0 #4a2810,0 0 22px rgba(255,209,102,.55)}
+.gift:active{transform:translateY(2px);box-shadow:0 2px 0 #4a2810}
+.gift.is-dragging{opacity:.35;transform:scale(.9)}
+
+.ghost{
+  position:fixed;z-index:1000;pointer-events:none;opacity:.92;
+  filter:drop-shadow(0 8px 12px rgba(0,0,0,.4));
+  transform:rotate(-8deg) scale(1.08);transition:transform .08s;
+}
+
+.shelf__count{margin-top:.8rem;font-size:.85rem;color:#fff; text-shadow:0 1px 3px rgba(0,0,0,.8)}
+.mute{
+  position:absolute;right:clamp(.8rem,3vw,2rem);bottom:1.2rem;width:46px;height:46px;
+  font-size:1.3rem;border-radius:50%;background:#2a1b52;color:var(--crema);
+  border:2px solid rgba(255,209,102,.5);transition:transform .15s;
+}
+.mute:hover{transform:scale(1.12)}
+
+/* ====== Partículas ====== */
+.fx{position:absolute;inset:0;pointer-events:none;z-index:7;overflow:hidden}
+.fx__p{position:absolute;animation:rise 1.6s ease-out forwards;will-change:transform,opacity}
+
+/* ====== Keyframes ====== */
+@keyframes tailWag{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(14deg)}}
+@keyframes headIdle{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+@keyframes blink{0%,93%,100%{transform:scaleY(1)}95%,97%{transform:scaleY(.08)}}
+@keyframes catBounce{from{transform:translateY(0) rotate(-3deg)}to{transform:translateY(-22px) rotate(3deg)}}
+@keyframes headTilt{0%,100%{transform:rotate(-11deg)}50%{transform:rotate(11deg)}}
+@keyframes waveL{from{transform:rotate(-135deg)}to{transform:rotate(-165deg)}}
+@keyframes waveR{from{transform:rotate(135deg)}to{transform:rotate(165deg)}}
+@keyframes strum{0%,100%{transform:rotate(-14deg) translateY(0)}50%{transform:rotate(16deg) translateY(9px)}}
+@keyframes rockHead{0%,100%{transform:rotate(-9deg)}50%{transform:rotate(9deg) translateY(4px)}}
+@keyframes munch{0%,100%{transform:rotate(0)}50%{transform:rotate(5deg) translateY(6px)}}
+@keyframes bow{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+@keyframes snackPop{from{opacity:1;transform:translateX(-50%) scale(1)}to{opacity:.35;transform:translateX(-50%) scale(.55)}}
+@keyframes hatPop{to{opacity:1;transform:translateX(-50%) scale(1)}}
+@keyframes ballRun{0%{transform:translateX(-16vmin) rotate(0) translateY(0)}
+  50%{transform:translateX(0) rotate(180deg) translateY(-7vmin)}
+  100%{transform:translateX(16vmin) rotate(360deg) translateY(0)}}
+@keyframes sway{from{transform:rotate(-7deg)}to{transform:rotate(7deg)}}
+@keyframes bulb{0%,100%{opacity:1}50%{opacity:.82}}
+@keyframes pulse{from{transform:scale(1)}to{transform:scale(1.04)}}
+@keyframes rise{from{transform:translate(0,0) rotate(0) scale(1);opacity:1}
+  to{transform:translate(var(--dx,0),-150px) rotate(var(--rot,0)) scale(1.25);opacity:0}}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition:none !important}
+}
